@@ -1,0 +1,506 @@
+[
+    {
+        "id": 1,
+        "room_name": "Suite-CF2828",
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$543",
+        "offer": "$64",
+        "status": "Available"
+    },
+    {
+        "id": 2,
+        "room_name": "Suite-CF2828",
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$311",
+        "offer": "$84",
+        "status": "Under Maintenance"
+    },
+    {
+        "id": 3,
+        "room_name": "Suite-CF2828",
+        "amenities": "Mini Bar",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$33",
+        "offer": "$32",
+        "status": "Available"
+    },
+    {
+        "id": 4,
+        "room_name": "Suite-CF2828",
+        "amenities": "Room Service",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$234",
+        "offer": "$103",
+        "status": "Booked"
+    },
+    {
+        "id": 5,
+        "room_name": "Suite-CF2828",
+        "amenities": "Air Conditioning",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$234",
+        "offer": "$103",
+        "status": "Under Maintenance"
+    },
+    {
+        "id": 6,
+        "room_name": "Suite-CF2828",
+        "amenities": "TV",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$44",
+        "offer": "$32",
+        "status": "Under Maintenance"
+    },
+    {
+        "id": 7,
+        "room_name": "Suite-CF2828",
+        "amenities": "TV",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$33",
+        "offer": "$124",
+        "status": "Available"
+    },
+    {
+        "id": 8,
+        "room_name": "Suite-CF2828",
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$234",
+        "offer": "$84",
+        "status": "Booked"
+    },
+    {
+        "id": 9,
+        "room_name": "Suite-CF2828",
+        "amenities": "Mini Bar",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$65",
+        "offer": "$103",
+        "status": "Booked"
+    },
+    {
+        "id": 10,
+        "room_name": "Suite-CF2828",
+        "amenities": "Mini Bar",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$84",
+        "offer": "$234",
+        "status": "Booked"
+    },
+    {
+        "id": 11,
+        "room_name": "Suite-CF2828",
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$234",
+        "offer": "$90",
+        "status": "Booked"
+    },
+    {
+        "id": 12,
+        "room_name": "Suite-CF2828",
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$32",
+        "offer": "$90",
+        "status": "Under Maintenance"
+    },
+    {
+        "id": 13,
+        "room_name": "Suite-CF2828",
+        "amenities": "Air Conditioning",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$234",
+        "offer": "$90",
+        "status": "Booked"
+    },
+    {
+        "id": 14,
+        "room_name": "Suite-CF2828",
+        "amenities": "Room Service",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$103",
+        "offer": "$234",
+        "status": "Booked"
+    },
+    {
+        "id": 15,
+        "room_name": "Suite-CF2828",
+        "amenities": "Room Service",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$234",
+        "offer": "$234",
+        "status": "Booked"
+    },
+    {
+        "id": 16,
+        "room_name": "Suite-CF2828",
+        "amenities": "Air Conditioning",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$124",
+        "offer": "$49",
+        "status": "Under Maintenance"
+    },
+    {
+        "id": 17,
+        "room_name": "Suite-CF2828",
+        "amenities": "Room Service",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$234",
+        "offer": "$103",
+        "status": "Booked"
+    },
+    {
+        "id": 18,
+        "room_name": "Suite-CF2828",
+        "amenities": "TV",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$55",
+        "offer": "$52",
+        "status": "Booked"
+    },
+    {
+        "id": 19,
+        "room_name": "Suite-CF2828",
+        "amenities": "Room Service",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$64",
+        "offer": "$51",
+        "status": "Available"
+    },
+    {
+        "id": 20,
+        "room_name": "Suite-CF2828",
+        "amenities": "Mini Bar",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$234",
+        "offer": "$50",
+        "status": "Available"
+    },
+    {
+        "id": 21,
+        "room_name": "Suite-CF2828",
+        "amenities": "Mini Bar",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$124",
+        "offer": "$50",
+        "status": "Booked"
+    },
+    {
+        "id": 22,
+        "room_name": "Suite-CF2828",
+        "amenities": "Room Service",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$66",
+        "offer": "$124",
+        "status": "Booked"
+    },
+    {
+        "id": 23,
+        "room_name": "Suite-CF2828",
+        "amenities": "TV",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$32",
+        "offer": "$467",
+        "status": "Booked"
+    },
+    {
+        "id": 24,
+        "room_name": "Suite-CF2828",
+        "amenities": "Air Conditioning",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$32",
+        "offer": "$77",
+        "status": "Available"
+    },
+    {
+        "id": 25,
+        "room_name": "Suite-CF2828",
+        "amenities": "TV",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$124",
+        "offer": "$124",
+        "status": "Under Maintenance"
+    },
+    {
+        "id": 26,
+        "room_name": "Suite-CF2828",
+        "amenities": "Mini Bar",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$234",
+        "offer": "$103",
+        "status": "Booked"
+    },
+    {
+        "id": 27,
+        "room_name": "Suite-CF2828",
+        "amenities": "TV",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$84",
+        "offer": "$77",
+        "status": "Booked"
+    },
+    {
+        "id": 28,
+        "room_name": "Suite-CF2828",
+        "amenities": [
+            "AC",
+            "Shower",
+            "Double bed",
+            "Towel",
+            "Bathup",
+            "Cofee Set",
+            "LED TV",
+            "Wifi"
+        ],
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$103",
+        "offer": "$65",
+        "status": "Booked"
+    },
+    {
+        "id": 29,
+        "room_name": "Suite-CF2828",
+        "amenities": "Mini Bar",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$55",
+        "offer": "$52",
+        "status": "Under Maintenance"
+    },
+    {
+        "id": 30,
+        "room_name": "Suite-CF2828",
+        "amenities": "Mini Bar",
+        "images":[
+            "https://loremflickr.com/cache/resized/2459_4044627625_6d16d9a5e4_h_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_52882869684_456def67f9_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/6233_6859865730_a3ccf74b15_b_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/65535_53243858252_3bd6cfbc0f_c_800_600_nofilter.jpg",
+            "https://loremflickr.com/cache/resized/7435_13555252443_2942e3379e_b_800_600_nofilter.jpg"
+        ],
+        "price": "$467",
+        "offer": "$467",
+        "status": "Available"
+    }
+]
