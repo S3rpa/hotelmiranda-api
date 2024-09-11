@@ -1,51 +1,49 @@
-import { UserInterface } from '../interfaces/userInterface'
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
+import { UserInterface } from '../interfaces/userInterface'
 
 const usersFilePath = path.join(__dirname, '../data/users.json')
 
-export class UserService{
+export class UserService {
 
-    getAll(): UserInterface[]{
+    static async fetchAll(): Promise<UserInterface[]> {
         const data = fs.readFileSync(usersFilePath, 'utf8')
         return JSON.parse(data) as UserInterface[]
     }
 
-    getById(uuid: number): UserInterface | null {
-        const users = this.getAll() 
-        const user = users.find(user => user.id === uuid)
-        return user || null
+    static async fetchOne(id: string): Promise<UserInterface> {
+        const users = await this.fetchAll()
+        const user = users.find(user => user.id === Number(id))
+        if (!user) throw new Error('User not found')
+        return user
     }
 
-    createUser(user: UserInterface): UserInterface{
-        const users = this.getAll()
-        const newUser = { ...user, id: users.length + 1 }
+    static async add(userData: UserInterface): Promise<UserInterface> {
+        const users = await this.fetchAll()
+        const newUser = { ...userData, id: users.length + 1 }
         users.push(newUser)
         fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2))
         return newUser
     }
 
-    updateUser(uuid: number, user: UserInterface): UserInterface | null {
-        const users = this.getAll()
-        const userIndex = users.findIndex(user => user.id === uuid)
-        if(userIndex === -1) return null
-        const updatedUser = { ...user, id: uuid }
+    static async update(id: string, userData: UserInterface): Promise<UserInterface | null> {
+        const users = await this.fetchAll()
+        const userIndex = users.findIndex(user => user.id === Number(id))
+        if (userIndex === -1) return null
+
+        const updatedUser = { ...userData, id: Number(id) }
         users[userIndex] = updatedUser
         fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2))
         return updatedUser
     }
 
-    deleteUser(uuid: number): UserInterface | null {
-        const users = this.getAll()
-        const userIndex = users.findIndex(user => user.id === uuid)
-        if(userIndex === -1) return null
+    static async delete(id: string): Promise<UserInterface | null> {
+        const users = await this.fetchAll()
+        const userIndex = users.findIndex(user => user.id === Number(id))
+        if (userIndex === -1) return null
+
         const deletedUser = users.splice(userIndex, 1)[0]
         fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2))
         return deletedUser
-    }
-
-    sortUsersByName(): UserInterface[] {
-        const users = this.getAll()
-        return users.sort((a: UserInterface, b: UserInterface) => a.name.localeCompare(b.name))
     }
 }
