@@ -1,4 +1,4 @@
-export interface User {
+export interface UserInterface {
     id: number
     name: string
     work: string
@@ -8,6 +8,6 @@ export interface User {
     telephone: string
     start_date: string
     description: string
-    state: 'ACTIVE' | 'INACTIVE'
+    state: 'ACTIVE' | 'INACTIVE' | string
     password: string
   }
