@@ -1,7 +1,6 @@
 import { UserService } from "../services/userService"
 import { Request, Response, Router } from 'express'
 import { createUserValidator, updateUserValidator } from '../validators/usersValidator'
-import { isLoggedIn } from '../middleware/auth'
 
 export const usersController = Router()
 
@@ -18,14 +17,14 @@ usersController.get('/:uuid', async (req: Request<{ uuid: number }>, res: Respon
 
 // Rutas protegidas por autenticación
 
-usersController.post('', isLoggedIn, createUserValidator, async (req: Request, res: Response) => {
+usersController.post('', createUserValidator, async (req: Request, res: Response) => {
   const userService = new UserService()
   const user = userService.createUser(req.body)
   return res.status(201).send({ data: user })
 }
 )
 
-usersController.put('/:uuid', isLoggedIn, updateUserValidator, async (req: Request, res: Response) => {
+usersController.put('/:uuid', updateUserValidator, async (req: Request, res: Response) => {
   const userService = new UserService()
   const user = userService.updateUser(Number(req.params.uuid), req.body)
   if (user) {
@@ -35,7 +34,7 @@ usersController.put('/:uuid', isLoggedIn, updateUserValidator, async (req: Reque
 }
 )
 
-usersController.delete('/:uuid', isLoggedIn, async (req: Request, res: Response) => {
+usersController.delete('/:uuid', async (req: Request, res: Response) => {
   const userService = new UserService()
   const deleted = userService.deleteUser(Number(req.params.uuid))
   if (deleted) {
