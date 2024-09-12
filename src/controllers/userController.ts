@@ -1,5 +1,6 @@
 import { UserService } from "../services/userService"
 import { Request, Response, NextFunction, Router } from 'express'
+import { isLoggedIn } from '../middleware/auth'
 
 export const userController = Router()
 
@@ -12,7 +13,7 @@ userController.get('/', async (_req: Request, res: Response, _next: NextFunction
     }
 })
 
-userController.get('/:id', async (req: Request, res: Response, _next: NextFunction) => {
+userController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     try {
         const user = await UserService.fetchOne(id)
@@ -26,7 +27,7 @@ userController.get('/:id', async (req: Request, res: Response, _next: NextFuncti
     }
 })
 
-userController.post('/add', async (req: Request, res: Response, _next: NextFunction) => {
+userController.post('/add', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     try {
         const userData = req.body
         const newUser = await UserService.add(userData)
@@ -36,7 +37,7 @@ userController.post('/add', async (req: Request, res: Response, _next: NextFunct
     }
 })
 
-userController.delete('/delete/:id', async (req: Request, res: Response, _next: NextFunction) => {
+userController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     try {
         const deletedUser = await UserService.delete(id)
@@ -50,8 +51,8 @@ userController.delete('/delete/:id', async (req: Request, res: Response, _next: 
     }
 })
 
-userController.put('/update/:id', async (req: Request, res: Response, _next: NextFunction) => {
-    const id = req.params.id
+userController.put('/update/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
+    const id = req.params.id 
     const userData = req.body
     try {
         const updatedUser = await UserService.update(id, userData)

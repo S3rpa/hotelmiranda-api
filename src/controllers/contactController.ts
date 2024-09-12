@@ -1,5 +1,6 @@
 import { ContactService } from "../services/contactService"
 import { Request, Response, NextFunction, Router } from 'express'
+import { isLoggedIn } from '../middleware/auth'
 
 export const contactController = Router()
 
@@ -12,7 +13,7 @@ contactController.get('/', async (_req: Request, res: Response, _next: NextFunct
     }
 })
 
-contactController.get('/:id', async (req: Request, res: Response, _next: NextFunction) => {
+contactController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     try {
         const contact = await ContactService.fetchOne(id)
@@ -26,7 +27,7 @@ contactController.get('/:id', async (req: Request, res: Response, _next: NextFun
     }
 })
 
-contactController.post('/add', async (req: Request, res: Response, _next: NextFunction) => {
+contactController.post('/add', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     try {
         const contactData = req.body
         const newContact = await ContactService.add(contactData)
@@ -36,7 +37,7 @@ contactController.post('/add', async (req: Request, res: Response, _next: NextFu
     }
 })
 
-contactController.delete('/delete/:id', async (req: Request, res: Response, _next: NextFunction) => {
+contactController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     try {
         const deletedContact = await ContactService.delete(id)
@@ -50,7 +51,7 @@ contactController.delete('/delete/:id', async (req: Request, res: Response, _nex
     }
 })
 
-contactController.put('/update/:id', async (req: Request, res: Response, _next: NextFunction) => {
+contactController.put('/update/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     const contactData = req.body
     try {

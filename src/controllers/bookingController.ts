@@ -1,5 +1,6 @@
 import { BookingService } from "../services/bookingService"
 import { Request, Response, NextFunction, Router } from 'express'
+import { isLoggedIn } from '../middleware/auth'
 
 export const bookingController = Router()
 
@@ -14,7 +15,7 @@ bookingController.get('/', async (_req: Request, res: Response, _next: NextFunct
 })
 
 
-bookingController.get('/:id', async (req: Request, res: Response, _next: NextFunction) => {
+bookingController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     try {
         const booking = await BookingService.fetchOne(id)
@@ -28,7 +29,7 @@ bookingController.get('/:id', async (req: Request, res: Response, _next: NextFun
     }
 })
 
-bookingController.post('/add', async (req: Request, res: Response, _next: NextFunction) => {
+bookingController.post('/add', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     try {
         const bookingData = req.body
         const newBooking = await BookingService.add(bookingData)
@@ -38,7 +39,7 @@ bookingController.post('/add', async (req: Request, res: Response, _next: NextFu
     }
 })
 
-bookingController.delete('/delete/:id', async (req: Request, res: Response, _next: NextFunction) => {
+bookingController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     try {
         const deletedBooking = await BookingService.delete(id)
@@ -52,7 +53,7 @@ bookingController.delete('/delete/:id', async (req: Request, res: Response, _nex
     }
 })
 
-bookingController.put('/update/:id', async (req: Request, res: Response, _next: NextFunction) => {
+bookingController.put('/update/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     const bookingData = req.body
     try {

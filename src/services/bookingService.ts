@@ -26,7 +26,7 @@ export class BookingService {
         return newBooking
     }
 
-    static async update(id: string, bookingData: Booking): Promise<Booking> {
+    static async update(id: string, bookingData: Booking): Promise<Booking | null> {
         const bookings = await this.fetchAll();
         const bookingIndex = bookings.findIndex(booking => booking.id === Number(id))
         if (bookingIndex === -1) return null as Booking | null

@@ -1,5 +1,6 @@
 import { RoomService } from "../services/roomService"
 import { Request, Response, NextFunction, Router } from 'express'
+import { isLoggedIn } from '../middleware/auth'
 
 export const roomController = Router()
 
@@ -12,7 +13,7 @@ roomController.get('/', async (_req: Request, res: Response, _next: NextFunction
     }
 })
 
-roomController.get('/:id', async (req: Request, res: Response, _next: NextFunction) => {
+roomController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     try {
         const room = await RoomService.fetchOne(id)
@@ -26,7 +27,7 @@ roomController.get('/:id', async (req: Request, res: Response, _next: NextFuncti
     }
 })
 
-roomController.post('/add', async (req: Request, res: Response, _next: NextFunction) => {
+roomController.post('/add', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     try {
         const roomData = req.body
         const newRoom = await RoomService.add(roomData)
@@ -36,7 +37,7 @@ roomController.post('/add', async (req: Request, res: Response, _next: NextFunct
     }
 })
 
-roomController.delete('/delete/:id', async (req: Request, res: Response, _next: NextFunction) => {
+roomController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     try {
         const deletedRoom = await RoomService.delete(id)
@@ -50,7 +51,7 @@ roomController.delete('/delete/:id', async (req: Request, res: Response, _next: 
     }
 })
 
-roomController.put('/update/:id', async (req: Request, res: Response, _next: NextFunction) => {
+roomController.put('/update/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     const roomData = req.body
     try {
