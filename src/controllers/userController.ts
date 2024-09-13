@@ -1,8 +1,8 @@
 import { UserService } from "../services/userService"
-import { Request, Response, NextFunction, Router } from 'express'
+import e, { Request, Response, NextFunction, Router } from 'express'
 import { isLoggedIn } from '../middleware/auth'
 
-export const userController = Router()
+const userController = Router()
 
 userController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
     try {
@@ -65,3 +65,5 @@ userController.put('/update/:id', isLoggedIn, async (req: Request, res: Response
         return res.status(500).json({ message: `Error updating user #${id}`, error })
     }
 })
+export { userController }
+

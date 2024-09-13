@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { UserInterface } from '../interfaces/userInterface'
 
-const usersFilePath = path.join(__dirname, '../data/users.json')
+const usersFilePath = path.join(__dirname, '../data/user.json')
 
 export class UserService {
 

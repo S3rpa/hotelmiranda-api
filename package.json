@@ -1,27 +1,36 @@
 {
-  "name": "hotelmiranda-dashboard-api",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "dashboard-api",
+  "version": "1.0.0",
+  "main": "app.ts",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/app.ts",
+    "build": "tsc",
+    "deploy": "zip -r lambda.zip .",
+    "dev": "nodemon --exec npx ts-node src/app.ts"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
     "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/express-validator": "^2.20.33",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^22.5.4",
     "nodemon": "^3.1.4",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.1"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@types/express": "^4.17.21",
-    "@types/node": "^22.5.4",
+    "aws-serverless-express": "^3.4.0",
     "cors": "^2.8.5",
-    "express": "^4.20.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-async-handler": "^1.2.0",
     "express-validator": "^7.2.0",
-    "jsonwebtoken": "^9.0.2",
-    "ts-node-dev": "^2.0.0"
+    "jsonwebtoken": "^9.0.2"
   }
 }

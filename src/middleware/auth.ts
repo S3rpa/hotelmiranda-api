@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 
-const secretKey = 'supersecretkey'
+const secretKey = process.env.TOKEN_SECRET || 'supersecretkey' // Ensure this matches the token generation
 
 interface CustomRequest extends Request {
-  user?: any;
+  user?: any
 }
 
 export const isLoggedIn = (req: CustomRequest, res: Response, next: NextFunction) => {
-  const token = req.headers['authorization']?.split(' ')[1];
+  const token = req.headers['authorization']?.split(' ')[1]
 
   if (!token) {
     return res.status(401).json({ message: 'Access denied. No token provided.' })

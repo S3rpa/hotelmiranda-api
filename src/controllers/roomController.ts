@@ -2,7 +2,7 @@ import { RoomService } from "../services/roomService"
 import { Request, Response, NextFunction, Router } from 'express'
 import { isLoggedIn } from '../middleware/auth'
 
-export const roomController = Router()
+const roomController = Router()
 
 roomController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
     try {
@@ -65,3 +65,5 @@ roomController.put('/update/:id', isLoggedIn, async (req: Request, res: Response
         return res.status(500).json({ message: `Error updating room #${id}`, error })
     }
 })
+
+export { roomController }

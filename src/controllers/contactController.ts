@@ -2,7 +2,7 @@ import { ContactService } from "../services/contactService"
 import { Request, Response, NextFunction, Router } from 'express'
 import { isLoggedIn } from '../middleware/auth'
 
-export const contactController = Router()
+const contactController = Router()
 
 contactController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
     try {
@@ -65,3 +65,5 @@ contactController.put('/update/:id', isLoggedIn, async (req: Request, res: Respo
         return res.status(500).json({ message: `Error updating contact #${id}`, error })
     }
 })
+
+export { contactController }

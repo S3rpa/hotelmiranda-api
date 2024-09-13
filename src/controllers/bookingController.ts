@@ -2,7 +2,7 @@ import { BookingService } from "../services/bookingService"
 import { Request, Response, NextFunction, Router } from 'express'
 import { isLoggedIn } from '../middleware/auth'
 
-export const bookingController = Router()
+const bookingController = Router()
 
 // Obtener todas las reservas
 bookingController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
@@ -67,3 +67,5 @@ bookingController.put('/update/:id', isLoggedIn, async (req: Request, res: Respo
         return res.status(500).json({ message: `Error updating booking #${id}`, error })
     }
 })
+
+export { bookingController }
