@@ -52,11 +52,6 @@ app.use((_req, res) => {
   res.status(404).json({ message: 'Route not found' })
 })
 
-// Basic API root check
-app.get('/', (_req: Request, res: Response) => {
-  res.send('API is working')
-})
-
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
