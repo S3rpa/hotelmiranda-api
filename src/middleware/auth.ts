@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 
-const secretKey = process.env.TOKEN_SECRET || 'supersecretkey' // Ensure this matches the token generation
+const secretKey = process.env.TOKEN_SECRET || 'supersecretkey' 
 
 interface CustomRequest extends Request {
   user?: any
