@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import cors from 'cors'
@@ -8,6 +8,9 @@ import { contactController } from './controllers/contactController'
 import { userController } from './controllers/userController'
 import { isLoggedIn } from './middleware/auth'
 import { indexController } from './controllers/indexController'
+import { authenticateUser, generateAccessToken } from './controllers/loginController'
+
+const mongoose = require("mongoose");
 
 dotenv.config()
 
@@ -17,17 +20,6 @@ const secretKey = process.env.TOKEN_SECRET || 'supersecretkey'
 
 app.use(cors())
 app.use(express.json())
-
-function authenticateUser(username: string, password: string) {
-    if (username === 'admin' && password === 'admin') {
-      return { id: 1, username: 'admin' }
-    }
-    return null
-  }
-  
-  function generateAccessToken(user: object): string {
-    return jwt.sign(user, secretKey, { expiresIn: '1800s' })
-  }
 
   app.post('/api/login', (req: Request, res: Response) => {
     const { username, password } = req.body
@@ -53,8 +45,18 @@ app.use((_req, res) => {
 })
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+const start = async () => {
+  try {
+    await mongoose.connect(
+      "mongodb://root:root@localhost:27017/mongoose?authSource=admin"
+    );
+    app.listen(3000, () => console.log("Server started on port 3000"));
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+start();
 
 export default app

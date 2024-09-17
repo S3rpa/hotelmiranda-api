@@ -8,6 +8,16 @@ const hardcodedUser = {
   password: 'admin'
 };
 
+export function authenticateUser(username: string, password: string) {
+  if (username === 'admin' && password === 'admin') {
+    return { id: 1, username: 'admin' }
+  }
+  return null
+}
+
+export function generateAccessToken(user: object): string {
+  return jwt.sign(user, secretKey, { expiresIn: '1800s' })
+}
 const authController = Router();
 
 authController.post('/login', (req: Request, res: Response) => {
