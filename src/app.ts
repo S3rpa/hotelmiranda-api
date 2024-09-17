@@ -8,7 +8,7 @@ import { contactController } from './controllers/contactController'
 import { userController } from './controllers/userController'
 import { isLoggedIn } from './middleware/auth'
 import { indexController } from './controllers/indexController'
-import { authenticateUser, generateAccessToken } from './controllers/loginController'
+import { authController } from './controllers/loginController'
 
 const mongoose = require("mongoose");
 
@@ -21,20 +21,8 @@ const secretKey = process.env.TOKEN_SECRET || 'supersecretkey'
 app.use(cors())
 app.use(express.json())
 
-  app.post('/api/login', (req: Request, res: Response) => {
-    const { username, password } = req.body
-  
-    const user = authenticateUser(username, password)
-  
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' })
-    }
-  
-    const token = generateAccessToken({ username: user.username, id: user.id })
-    return res.json({ token })
-  })
-
 app.use('/', indexController);
+app.use('/api/login', authController)
 app.use('/api/rooms', isLoggedIn, roomController)
 app.use('/api/bookings', isLoggedIn, bookingController)
 app.use('/api/contacts', isLoggedIn, contactController)
