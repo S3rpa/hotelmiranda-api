@@ -1,12 +1,12 @@
-import { UserService } from "../services/userService"
 import e, { Request, Response, NextFunction, Router } from 'express'
 import { isLoggedIn } from '../middleware/auth'
+import { UserModel } from "../schemas/userSchema"
 
 const userController = Router()
 
 userController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
     try {
-        const users = await UserService.fetchAll()
+        const users = await UserModel.find()
         return res.status(200).json(users)
     } catch (error) {
         return res.status(500).json({ message: 'Error fetching users', error })
@@ -14,9 +14,9 @@ userController.get('/', async (_req: Request, res: Response, _next: NextFunction
 })
 
 userController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const id = req.params.id
+    const {id} = req.params
     try {
-        const user = await UserService.fetchOne(id)
+        const user = await UserModel.findById(id)
         if (user) {
             return res.status(200).json(user)
         } else {
@@ -29,18 +29,18 @@ userController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next
 
 userController.post('/add', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     try {
-        const userData = req.body
-        const newUser = await UserService.add(userData)
-        return res.status(201).json(newUser)
+        const newUser = new UserModel({...req.body})
+        const insertedUser = await newUser.save()
+        return res.status(201).json(insertedUser)
     } catch (error) {
         return res.status(500).json({ message: 'Error adding new user', error })
     }
 })
 
 userController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const id = req.params.id
+    const {id} = req.params
     try {
-        const deletedUser = await UserService.delete(id)
+        const deletedUser = await UserModel.findByIdAndDelete(id)
         if (deletedUser) {
             return res.status(200).json(deletedUser)
         } else {
@@ -52,10 +52,10 @@ userController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Respo
 })
 
 userController.put('/update/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const id = req.params.id 
-    const userData = req.body
+    const {id} = req.params 
     try {
-        const updatedUser = await UserService.update(id, userData)
+        await UserModel.updateOne({ id }, req.body)
+        const updatedUser = await UserModel.findById(id)
         if (updatedUser) {
             return res.status(200).json(updatedUser)
         } else {

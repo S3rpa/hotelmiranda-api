@@ -1,12 +1,12 @@
-import { RoomService } from "../services/roomService"
 import { Request, Response, NextFunction, Router } from 'express'
 import { isLoggedIn } from '../middleware/auth'
+import { RoomModel } from "../schemas/roomSchema"
 
 const roomController = Router()
 
 roomController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
     try {
-        const rooms = await RoomService.fetchAll()
+        const rooms = await RoomModel.find
         return res.status(200).json(rooms)
     } catch (error) {
         return res.status(500).json({ message: 'Error fetching rooms', error })
@@ -14,9 +14,9 @@ roomController.get('/', async (_req: Request, res: Response, _next: NextFunction
 })
 
 roomController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const id = req.params.id
+    const {id} = req.params
     try {
-        const room = await RoomService.fetchOne(id)
+        const room = await RoomModel.findById(id)
         if (room) {
             return res.status(200).json(room)
         } else {
@@ -29,38 +29,30 @@ roomController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next
 
 roomController.post('/add', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     try {
-        const roomData = req.body
-        const newRoom = await RoomService.add(roomData)
-        return res.status(201).json(newRoom)
+        const newRoom = new RoomModel({...req.body})
+        const insertedRoom = await newRoom.save()
+        return res.status(201).json(insertedRoom)
     } catch (error) {
         return res.status(500).json({ message: 'Error adding new room', error })
     }
 })
 
 roomController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const id = req.params.id
+    const {id} = req.params
     try {
-        const deletedRoom = await RoomService.delete(id)
-        if (deletedRoom) {
-            return res.status(200).json(deletedRoom)
-        } else {
-            return res.status(404).json({ message: `Room with id ${id} not found` })
-        }
+        const deletedRoom = await RoomModel.findByIdAndDelete(id)
+        return res.status(200).json(deletedRoom)
     } catch (error) {
         return res.status(500).json({ message: `Error deleting room #${id}`, error })
     }
 })
 
 roomController.put('/update/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const id = req.params.id
-    const roomData = req.body
+    const {id} = req.params
     try {
-        const updatedRoom = await RoomService.update(id, roomData)
-        if (updatedRoom) {
-            return res.status(200).json(updatedRoom)
-        } else {
-            return res.status(404).json({ message: `Room with id ${id} not found` })
-        }
+        await RoomModel.updateOne({id}, req.body)
+        const updatedRoom = await RoomModel.findById(id)
+        return res.status(200).json(updatedRoom)
     } catch (error) {
         return res.status(500).json({ message: `Error updating room #${id}`, error })
     }

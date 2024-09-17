@@ -1,14 +1,14 @@
-import { BookingService } from "../services/bookingService"
 import { Request, Response, NextFunction, Router } from 'express'
 import { isLoggedIn } from '../middleware/auth'
+import { BookingModel } from "../schemas/bookingSchema"
 
 const bookingController = Router()
 
 // Obtener todas las reservas
 bookingController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
     try {
-        const bookings = await BookingService.fetchAll()
-        return res.status(200).json(bookings)
+        const allbookings = await BookingModel.find()
+        return res.status(200).json(allbookings)
     } catch (error) {
         return res.status(500).json({ message: 'Error fetching bookings', error })
     }
@@ -18,7 +18,7 @@ bookingController.get('/', async (_req: Request, res: Response, _next: NextFunct
 bookingController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     const id = req.params.id
     try {
-        const booking = await BookingService.fetchOne(id)
+        const booking = await BookingModel.findById(id)
         if (booking) {
             return res.status(200).json(booking)
         } else {
@@ -31,38 +31,30 @@ bookingController.get('/:id', isLoggedIn, async (req: Request, res: Response, _n
 
 bookingController.post('/add', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
     try {
-        const bookingData = req.body
-        const newBooking = await BookingService.add(bookingData)
-        return res.status(201).json(newBooking)
+        const newBooking = new BookingModel({...req.body})
+        const insertedBooking = await newBooking.save()
+        return res.status(201).json(insertedBooking)
     } catch (error) {
         return res.status(500).json({ message: 'Error adding new booking', error })
     }
 })
 
 bookingController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const id = req.params.id
+    const { id } = req.params
     try {
-        const deletedBooking = await BookingService.delete(id)
-        if (deletedBooking) {
-            return res.status(200).json(deletedBooking)
-        } else {
-            return res.status(404).json({ message: `Booking with id ${id} not found` })
-        }
+        const deletedBooking = await BookingModel.findByIdAndDelete(id)
+        return res.status(200).json(deletedBooking)
     } catch (error) {
         return res.status(500).json({ message: `Error deleting booking #${id}`, error })
     }
 })
 
 bookingController.put('/update/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const id = req.params.id
-    const bookingData = req.body
+    const { id } = req.params
     try {
-        const updatedBooking = await BookingService.update(id, bookingData)
-        if (updatedBooking) {
-            return res.status(200).json(updatedBooking)
-        } else {
-            return res.status(404).json({ message: `Booking with id ${id} not found` })
-        }
+        await BookingModel.updateOne({ _id: id }, req.body)        
+        const updatedBooking = await BookingModel.findById(id)
+        return res.status(200).json(updatedBooking)
     } catch (error) {
         return res.status(500).json({ message: `Error updating booking #${id}`, error })
     }
