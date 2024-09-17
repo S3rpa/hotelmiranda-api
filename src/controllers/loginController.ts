@@ -1,36 +1,59 @@
-import { Request, Response, Router } from 'express'
-import jwt from 'jsonwebtoken'
+import { NextFunction, Request, Response, Router } from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { UserModel } from "../schemas/userSchema";
+import { UserInterface } from "../interfaces/userInterface";
 
-const secretKey = 'supersecretkey'
-
-const hardcodedUser = {
-  username: 'admin',
-  password: 'admin'
+const authController = Router();
+let userCheck: UserInterface = {
+  id: 0,
+  email: "",
+  password: "",
+  name: "",
+  work: "",
+  schedule: "",
+  photo: [],
+  telephone: "",
+  start_date: "",
+  description: "",
+  state: "",
 };
 
-export function authenticateUser(username: string, password: string) {
-  if (username === 'admin' && password === 'admin') {
-    return { id: 1, username: 'admin' }
+authController.post(
+  "/login",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
+    const check = await checkUser(email, password);
+
+    if (check) {
+      const token = jwt.sign(
+        { email, password },
+        process.env.TOKEN_SECRET || "secretKey",
+        { expiresIn: "1h" }
+      );
+      userCheck.password = password;
+      res.json({ Token: token, User: userCheck });
+    } else {
+      const error = new Error("Invalid credentials");
+      next(error);
+    }
   }
-  return null
-}
+)
 
-export function generateAccessToken(user: object): string {
-  return jwt.sign(user, secretKey, { expiresIn: '1800s' })
-}
-const authController = Router();
-
-authController.post('/login', (req: Request, res: Response) => {
-  const { username, password } = req.body
-
-  if (username === hardcodedUser.username && password === hardcodedUser.password) {
-
-    const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' })
-
-    return res.status(200).json({ message: 'Login successful', token })
+async function checkUser(email: string, password: string): Promise<boolean> {
+  try {
+    const user = await UserModel.findOne({ email:email }).exec()
+    if (user){
+      userCheck = {id: user.id, email: user.email, password: user.password, name: user.name, work: user.work, schedule: user.schedule, photo: user.photo, telephone: user.telephone, start_date: user.start_date, description: user.description, state: user.state}
+      return await bcrypt.compare(password, user.password)
+    } else {
+      return false
+    }
   }
-
-  return res.status(401).json({ message: 'Invalid username or password' })
-})
+  catch(error){
+    console.error('Error checking user', error)
+    throw new Error('Error checking user')
+  }
+}
 
 export { authController };
