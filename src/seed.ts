@@ -1,18 +1,21 @@
-import { faker } from '@faker-js/faker';
 import mongoose from 'mongoose';
 import { BookingModel } from './schemas/bookingSchema';
 import { ContactModel } from './schemas/contactSchema';
 import { RoomModel } from './schemas/roomSchema';
 import { UserModel } from './schemas/userSchema';
 import dotenv from 'dotenv';
+import { faker } from '@faker-js/faker';
 
 dotenv.config();
+faker.seed(1234);
+
+const mongoURI = process.env.MONGO_URI || 'mongodb+srv://sergiobarbera1:9mFnNMoBDAzEgSTf@miranda.p0ar9.mongodb.net/Miranda';
 
 const rooms: { id: any }[] = [];
 
 const startDatabase = async () => {
   try {
-    await mongoose.connect('mongodb://root:root@localhost:27017/mongoose?authSource=admin');
+    await mongoose.connect(mongoURI);
     console.log('Connected to MongoDB');
 
     // Limpiar colecciones
@@ -21,7 +24,7 @@ const startDatabase = async () => {
     await BookingModel.deleteMany({});
     await ContactModel.deleteMany({});
 
-    // Función para crear un usuario aleatorio
+    // Crear un usuario aleatorio
     function createRandomUser() {
       const firstname = faker.person.firstName();
       const lastname = faker.person.lastName();
@@ -29,11 +32,11 @@ const startDatabase = async () => {
         id: faker.string.uuid(),
         name: faker.internet.userName(),
         work: faker.person.jobTitle(),
-        schedule: faker.date.recent(),
+        schedule: faker.date.recent().toISOString(),
         photo: [faker.image.avatar()],
         email: faker.internet.email({ firstName: firstname, lastName: lastname }),
         telephone: faker.phone.number(),
-        start_date: faker.date.recent(),
+        start_date: faker.date.recent().toISOString(),
         description: faker.lorem.sentence(),
         state: faker.helpers.arrayElement(['ACTIVE', 'INACTIVE']),
         password: faker.internet.password(),
@@ -43,7 +46,13 @@ const startDatabase = async () => {
     // Crear 10 usuarios aleatorios
     for (let j = 0; j < 10; j++) {
       const newUser = createRandomUser();
-      await newUser.save();
+      await newUser.save().then(() => console.log("User saved:", newUser)).catch((err) => console.error("Error saving user:", err));
+      try {
+        await newUser.save();
+        console.log(`User ${newUser.name} saved to database`);
+      } catch (error) {
+        console.error('Error saving user:', error);
+      }
     }
 
     // Crear un usuario administrador
@@ -52,11 +61,11 @@ const startDatabase = async () => {
         id: '0',
         name: 'admin',
         work: 'admin',
-        schedule: '2024-09-17',
+        schedule: new Date('2024-09-17').toISOString(),
         photo: ['https://cdn.fakercloud.com/avatars/calebogden_128.jpg'],
         email: 'admin',
         telephone: '1234567890',
-        start_date: '2024-09-01',
+        start_date: new Date('2024-09-01').toISOString(),
         description: 'Admin user description',
         state: 'ACTIVE',
         password: 'admin',
@@ -64,9 +73,14 @@ const startDatabase = async () => {
     }
 
     const admin = createAdminUser();
-    await admin.save();
+    try {
+      await admin.save();
+      console.log('Admin user saved to database');
+    } catch (error) {
+      console.error('Error saving admin user:', error);
+    }
 
-    // Función para crear una habitación aleatoria
+    // Crear una habitación aleatoria
     function createRandomRoom() {
       const price = faker.number.int({ min: 200, max: 500 });
       return new RoomModel({
@@ -83,32 +97,33 @@ const startDatabase = async () => {
     // Crear 10 habitaciones aleatorias
     for (let k = 0; k < 10; k++) {
       const newRoom = createRandomRoom();
-      await newRoom.save();
-      rooms.push(newRoom);
-    }
-    console.log('Rooms created');
-
-    // Función para crear una reserva aleatoria
-    function createRandomAmenity() {
-      return {
-        name: faker.lorem.word(),
-        isFree: faker.datatype.boolean(),
-        description: faker.lorem.sentence(),
-      };
+      try {
+        await newRoom.save();
+        rooms.push(newRoom);
+        console.log(`Room ${newRoom.room_name} saved to database`);
+      } catch (error) {
+        console.error('Error saving room:', error);
+      }
     }
 
+    // Crear una reserva aleatoria
     function createRandomBooking() {
       return new BookingModel({
         id: faker.string.uuid(),
-        name: faker.internet.userName(),
+        user: {
+          firstName: faker.person.firstName(),
+          lastName: faker.person.lastName(),
+          room_id: faker.string.uuid(),
+        },
+        room: {
+          roomType: faker.lorem.word(),
+          room_id: faker.string.uuid(),
+        },
         orderDate: faker.date.recent(),
-        checkIn: faker.date.recent(),
-        checkOut: faker.date.recent(),
-        roomType: faker.lorem.word(),
+        checkIn: faker.date.future(),
+        checkOut: faker.date.future(),
         status: faker.helpers.arrayElement(['Booked', 'Pending', 'Cancelled', 'Refund']),
-        description: faker.lorem.sentence(),
         price: faker.number.int({ min: 200, max: 500 }),
-        amenities: faker.helpers.multiple(createRandomAmenity, { count: 3 }),
         specialRequest: faker.lorem.sentence(),
       });
     }
@@ -116,11 +131,15 @@ const startDatabase = async () => {
     // Crear 10 reservas aleatorias
     for (let l = 0; l < 10; l++) {
       const newBooking = createRandomBooking();
-      await newBooking.save();
+      try {
+        await newBooking.save();
+        console.log('Booking saved to database');
+      } catch (error) {
+        console.error('Error saving booking:', error);
+      }
     }
-    console.log('Bookings created');
 
-    // Función para crear un contacto aleatorio
+    // Crear un contacto aleatorio
     function createRandomContact() {
       return new ContactModel({
         Contact_id: faker.string.uuid(),
@@ -136,13 +155,17 @@ const startDatabase = async () => {
     // Crear 10 contactos aleatorios
     for (let m = 0; m < 10; m++) {
       const newContact = createRandomContact();
-      await newContact.save();
+      try {
+        await newContact.save();
+        console.log('Contact saved to database');
+      } catch (error) {
+        console.error('Error saving contact:', error);
+      }
     }
 
-    console.log('Contacts created');
+    console.log('Data generation completed');
   } catch (error) {
-    console.error(error);
-    process.exit(1);
+    console.error('Database operation error:', error);
   } finally {
     await mongoose.connection.close();
     console.log('Disconnected from MongoDB');

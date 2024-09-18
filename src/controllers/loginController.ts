@@ -16,7 +16,7 @@ let userCheck: UserInterface = {
   telephone: "",
   start_date: "",
   description: "",
-  state: "",
+  state: "ACTIVE" ,
 };
 
 authController.post(
