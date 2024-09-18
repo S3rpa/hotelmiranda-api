@@ -32,9 +32,8 @@ app.use((_req: Request, res: Response) => {
 // Iniciar servidor
 const startServer = async () => {
   try {
-    await mongoose.connect(
-      process.env.MONGO_URI || 'mongodb://localhost:27017'
-    )
+    await mongoose.connect('mongodb://root:root@localhost:27017/mongoose?authSource=admin');
+
     app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
   } catch (error) {
     console.error(error)

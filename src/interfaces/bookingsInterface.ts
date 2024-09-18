@@ -1,18 +1,24 @@
-export interface Amenity {
-    name: string
-    isFree: boolean
-    description: string
-}
+import exp from "constants"
+
 export interface Booking {
     id: string
-    name: string
-    orderDate: string
-    checkIn: string
-    checkOut: string
-    roomType: string
+    user: User
+    room: Room
+    orderDate: Date
+    checkIn: Date
+    checkOut: Date
     status: 'Booked' | 'Pending' | 'Cancelled' | 'Refund'
-    description: string
-    price: string
-    amenities: Amenity[]
+    price: number
     specialRequest?: string
+}
+
+export interface Room {
+    roomType: string
+    room_id: string
+}
+
+export interface User {
+    firstName: string
+    lastName: string
+    room_id: string
 }

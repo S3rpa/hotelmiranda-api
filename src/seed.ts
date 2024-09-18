@@ -12,9 +12,7 @@ const rooms: { id: any }[] = [];
 
 const startDatabase = async () => {
   try {
-    await mongoose.connect(
-      process.env.MONGO_URI || 'mongodb://localhost:27017'
-    );
+    await mongoose.connect('mongodb://root:root@localhost:27017/mongoose?authSource=admin');
     console.log('Connected to MongoDB');
 
     // Limpiar colecciones
