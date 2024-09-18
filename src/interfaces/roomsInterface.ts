@@ -1,9 +1,9 @@
 export interface Room {
-    id: number
+    id: string
     room_name: string
     amenities: string
     images: string[]
-    price: string
+    price: number
     offer: string
     status: 'Available' | 'Booked' | 'Under Maintenance'
   }

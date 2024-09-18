@@ -1,5 +1,5 @@
 export interface Contact {
-    Contact_id: number
+    Contact_id: string
     Date: string
     Customer: string
     Comment: string

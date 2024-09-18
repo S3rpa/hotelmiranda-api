@@ -4,7 +4,7 @@ export interface Amenity {
     description: string
 }
 export interface Booking {
-    id: number
+    id: string
     name: string
     orderDate: string
     checkIn: string
