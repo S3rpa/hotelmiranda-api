@@ -6,7 +6,7 @@ import { UserInterface } from "../interfaces/userInterface";
 
 const authController = Router();
 let userCheck: UserInterface = {
-  id: 0,
+  id: "",
   email: "",
   password: "",
   name: "",
