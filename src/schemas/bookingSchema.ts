@@ -1,24 +1,23 @@
-import { Schema, model, connect } from "mongoose";
-import { Booking, Amenity } from "../interfaces/bookingsInterface";
-
-const amenitySchema = new Schema<Amenity>({
-    name: { type: String, required: true },
-    isFree: { type: Boolean, required: true },
-    description: { type: String, required: true }
-})
+import { Schema, model } from "mongoose";
+import { Booking } from "../interfaces/bookingsInterface";
 
 const bookingSchema = new Schema<Booking>({
-    id: { type: Number, required: true },
-    name: { type: String, required: true },
-    orderDate: { type: String, required: true },
-    checkIn: { type: String, required: true },
-    checkOut: { type: String, required: true },
-    roomType: { type: String, required: true },
+    id: { type: String, required: true },
+    user: { 
+        firstName: { type: String, required: true },
+        lastName: { type: String, required: true }, 
+        room_id: { type: String, required: true } 
+    },
+    room: {
+        roomType: { type: String, required: true },
+        room_id: { type: String, required: true }
+    },
+    orderDate: { type: Date, required: true },
+    checkIn: { type: Date, required: true },
+    checkOut: { type: Date, required: true },
     status: { type: String, required: true, enum: ['Booked', 'Pending', 'Cancelled', 'Refund'] },
-    description: { type: String, required: true },
-    price: { type: String, required: true },
-    amenities: { type: [amenitySchema], required: true },
-    specialRequest: { type: String, required: false }
+    price: { type: Number, required: true },
+    specialRequest: { type: String, required: false },
 })
 
-export const BookingModel = model<Booking>("Booking", bookingSchema);
+export const BookingModel = model<Booking>("Booking", bookingSchema)

@@ -4,9 +4,9 @@ import { UserInterface } from "../interfaces/userInterface";
 const userSchema = new Schema<UserInterface>({
   id: { type: String, required: true },
   name: { type: String, required: true },
-  work: { type: String, required: true },
-  schedule: { type: String, required: true },
-  photo: { type: [String], required: true },
+  work: { type: String, required: false },
+  schedule: { type: String, required: false },
+  photo: { type: [String], required: false },
   email: { type: String, required: true },
   telephone: { type: String, required: true },
   start_date: { type: String, required: true },
@@ -15,4 +15,4 @@ const userSchema = new Schema<UserInterface>({
   password: { type: String, required: true },
 });
 
-export const UserModel = model<UserInterface>("User", userSchema);
+export const UserModel = model<UserInterface>("User", userSchema)
