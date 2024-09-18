@@ -1,32 +1,32 @@
-import { faker } from '@faker-js/faker'
-import mongoose from 'mongoose'
-import { BookingModel } from './schemas/bookingSchema'
-import { ContactModel } from './schemas/contactSchema'
-import { RoomModel } from './schemas/roomSchema'
-import { UserModel } from './schemas/userSchema'
-import dotenv from 'dotenv'
+import { faker } from '@faker-js/faker';
+import mongoose from 'mongoose';
+import { BookingModel } from './schemas/bookingSchema';
+import { ContactModel } from './schemas/contactSchema';
+import { RoomModel } from './schemas/roomSchema';
+import { UserModel } from './schemas/userSchema';
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
-const rooms: { id: any }[] = []
+const rooms: { id: any }[] = [];
 
-const start = async () => {
+const startDatabase = async () => {
   try {
     await mongoose.connect(
-      "mongodb://root:root@localhost:27017/mongoose?authSource=admin"
-    )
-    console.log("Connected to MongoDB")
+      process.env.MONGO_URI || 'mongodb://localhost:27017'
+    );
+    console.log('Connected to MongoDB');
 
     // Limpiar colecciones
-    await UserModel.deleteMany({})
-    await RoomModel.deleteMany({})
-    await BookingModel.deleteMany({})
-    await ContactModel.deleteMany({})
+    await UserModel.deleteMany({});
+    await RoomModel.deleteMany({});
+    await BookingModel.deleteMany({});
+    await ContactModel.deleteMany({});
 
     // Función para crear un usuario aleatorio
     function createRandomUser() {
-      const firstname = faker.person.firstName()
-      const lastname = faker.person.lastName()
+      const firstname = faker.person.firstName();
+      const lastname = faker.person.lastName();
       return new UserModel({
         id: faker.string.uuid(),
         name: faker.internet.userName(),
@@ -38,19 +38,18 @@ const start = async () => {
         start_date: faker.date.recent(),
         description: faker.lorem.sentence(),
         state: faker.helpers.arrayElement(['ACTIVE', 'INACTIVE']),
-        password: faker.internet.password()
-      })
+        password: faker.internet.password(),
+      });
     }
 
     // Crear 10 usuarios aleatorios
     for (let j = 0; j < 10; j++) {
-      const newUser = createRandomUser()
-      await newUser.save()
+      const newUser = createRandomUser();
+      await newUser.save();
     }
 
     // Crear un usuario administrador
-    function myUser() {
-      const password = 'admin'
+    function createAdminUser() {
       return new UserModel({
         id: '0',
         name: 'admin',
@@ -62,16 +61,16 @@ const start = async () => {
         start_date: '2024-09-01',
         description: 'Admin user description',
         state: 'ACTIVE',
-        password: password
-      })
+        password: 'admin',
+      });
     }
 
-    const admin = myUser()
-    await admin.save()
+    const admin = createAdminUser();
+    await admin.save();
 
     // Función para crear una habitación aleatoria
     function createRandomRoom() {
-      const price = faker.number.int({ min: 200, max: 500 })
+      const price = faker.number.int({ min: 200, max: 500 });
       return new RoomModel({
         id: faker.string.uuid(),
         room_name: faker.lorem.word(),
@@ -79,17 +78,17 @@ const start = async () => {
         images: [faker.image.urlPicsumPhotos()],
         price: price,
         offer: faker.number.int({ min: 100, max: price }),
-        status: faker.helpers.arrayElement(['AVAILABLE', 'BOOKED'])
-      })
+        status: faker.helpers.arrayElement(['AVAILABLE', 'BOOKED']),
+      });
     }
 
     // Crear 10 habitaciones aleatorias
     for (let k = 0; k < 10; k++) {
-      const newRoom = createRandomRoom()
-      await newRoom.save()
-      rooms.push(newRoom)
+      const newRoom = createRandomRoom();
+      await newRoom.save();
+      rooms.push(newRoom);
     }
-    console.log('Rooms created')
+    console.log('Rooms created');
 
     // Función para crear una reserva aleatoria
     function createRandomAmenity() {
@@ -97,7 +96,7 @@ const start = async () => {
         name: faker.lorem.word(),
         isFree: faker.datatype.boolean(),
         description: faker.lorem.sentence(),
-      }
+      };
     }
 
     function createRandomBooking() {
@@ -113,15 +112,15 @@ const start = async () => {
         price: faker.number.int({ min: 200, max: 500 }),
         amenities: faker.helpers.multiple(createRandomAmenity, { count: 3 }),
         specialRequest: faker.lorem.sentence(),
-      })
+      });
     }
 
     // Crear 10 reservas aleatorias
     for (let l = 0; l < 10; l++) {
-      const newBooking = createRandomBooking()
-      await newBooking.save()
+      const newBooking = createRandomBooking();
+      await newBooking.save();
     }
-    console.log('Bookings created')
+    console.log('Bookings created');
 
     // Función para crear un contacto aleatorio
     function createRandomContact() {
@@ -133,24 +132,23 @@ const start = async () => {
         gender: faker.person.gender(),
         ip_address: faker.internet.ip(),
         status: faker.helpers.arrayElement(['published', 'archived']),
-      })
+      });
     }
 
     // Crear 10 contactos aleatorios
     for (let m = 0; m < 10; m++) {
-      const newContact = createRandomContact()
-      await newContact.save()
+      const newContact = createRandomContact();
+      await newContact.save();
     }
 
-    console.log('Contacts created')
-
+    console.log('Contacts created');
   } catch (error) {
-    console.error(error)
-    process.exit(1)
+    console.error(error);
+    process.exit(1);
   } finally {
-    await mongoose.connection.close()
-    console.log('Disconnected from MongoDB')
+    await mongoose.connection.close();
+    console.log('Disconnected from MongoDB');
   }
-}
+};
 
-start()
+startDatabase();
