@@ -3,15 +3,8 @@ import { Booking } from "../interfaces/bookingsInterface";
 
 const bookingSchema = new Schema<Booking>({
     id: { type: String, required: true },
-    user: { 
-        firstName: { type: String, required: true },
-        lastName: { type: String, required: true }, 
-        room_id: { type: String, required: true } 
-    },
-    room: {
-        roomType: { type: String, required: true },
-        room_id: { type: String, required: true }
-    },
+    user: { type: Schema.Types.ObjectId, ref: "user", required: true },
+    room: { type: Schema.Types.ObjectId, ref: "room", required: true },
     orderDate: { type: Date, required: true },
     checkIn: { type: Date, required: true },
     checkOut: { type: Date, required: true },

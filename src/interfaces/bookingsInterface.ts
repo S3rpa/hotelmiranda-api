@@ -1,9 +1,9 @@
-import exp from "constants"
+import { Types } from "mongoose";
 
 export interface Booking {
     id: string
-    user: User
-    room: Room
+    user: Types.ObjectId | string
+    room: Types.ObjectId | string
     orderDate: Date
     checkIn: Date
     checkOut: Date
@@ -12,13 +12,3 @@ export interface Booking {
     specialRequest?: string
 }
 
-export interface Room {
-    roomType: string
-    room_id: string
-}
-
-export interface User {
-    firstName: string
-    lastName: string
-    room_id: string
-}
