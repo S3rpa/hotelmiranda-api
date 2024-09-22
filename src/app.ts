@@ -12,7 +12,7 @@ import { indexController } from './controllers/indexController';
 import { authController } from './controllers/loginController';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const secretKey = process.env.TOKEN_SECRET || 'supersecretkey';
 const mongoURI = process.env.MONGO_URI || 'mongodb+srv://sergiobarbera1:9mFnNMoBDAzEgSTf@miranda.p0ar9.mongodb.net/Miranda';
 
