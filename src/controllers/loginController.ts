@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { UserModel } from "../schemas/userSchema";
 import { UserInterface } from "../interfaces/userInterface";
 

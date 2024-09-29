@@ -13,14 +13,14 @@ export class UserService {
 
     static async fetchOne(id: string): Promise<UserInterface> {
         const users = await this.fetchAll()
-        const user = users.find(user => user.id === Number(id))
+        const user = users.find(user => user.id.toString() === id)
         if (!user) throw new Error('User not found')
         return user
     }
 
     static async add(userData: UserInterface): Promise<UserInterface> {
         const users = await this.fetchAll()
-        const newUser = { ...userData, id: users.length + 1 }
+        const newUser = { ...userData, id: (users.length + 1).toString() }
         users.push(newUser)
         fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2))
         return newUser
@@ -28,10 +28,10 @@ export class UserService {
 
     static async update(id: string, userData: UserInterface): Promise<UserInterface | null> {
         const users = await this.fetchAll()
-        const userIndex = users.findIndex(user => user.id === Number(id))
+        const userIndex = users.findIndex(user => user.id.toString() === id)
         if (userIndex === -1) return null
 
-        const updatedUser = { ...userData, id: Number(id) }
+        const updatedUser = { ...userData, id: id }
         users[userIndex] = updatedUser
         fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2))
         return updatedUser
@@ -39,7 +39,7 @@ export class UserService {
 
     static async delete(id: string): Promise<UserInterface | null> {
         const users = await this.fetchAll()
-        const userIndex = users.findIndex(user => user.id === Number(id))
+        const userIndex = users.findIndex(user => user.id.toString() === id)
         if (userIndex === -1) return null
 
         const deletedUser = users.splice(userIndex, 1)[0]

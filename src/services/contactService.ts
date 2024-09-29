@@ -13,7 +13,7 @@ export class ContactService {
 
     static async fetchOne(id: string): Promise<Contact> {
         const contacts = await this.fetchAll()
-        const contact = contacts.find(contact => contact.Contact_id === Number(id))
+        const contact = contacts.find(contact => contact.Contact_id.toString() === id)
         if (!contact) throw new Error('Contact not found')
         return contact
     }
@@ -28,7 +28,7 @@ export class ContactService {
 
     static async update(id: string, contactData: Contact): Promise<Contact | null> {
         const contacts = await this.fetchAll()
-        const contactIndex = contacts.findIndex(contact => contact.Contact_id === Number(id))
+        const contactIndex = contacts.findIndex(contact => contact.Contact_id.toString() === id)
         if (contactIndex === -1) return null
 
         const updatedContact = { ...contactData, id: Number(id) }
@@ -39,7 +39,7 @@ export class ContactService {
 
     static async delete(id: string): Promise<Contact | null> {
         const contacts = await this.fetchAll()
-        const contactIndex = contacts.findIndex(contact => contact.Contact_id === Number(id))
+        const contactIndex = contacts.findIndex(contact => contact.Contact_id.toString() === id)
         if (contactIndex === -1) return null
 
         const deletedContact = contacts.splice(contactIndex, 1)[0]
