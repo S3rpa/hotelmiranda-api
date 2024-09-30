@@ -51,7 +51,6 @@ process.on('SIGINT', async () => {
   console.log('Disconnected from MongoDB due to app termination');
   process.exit(0);
 });
-
 startServer();
 
 export default app;
