@@ -37,7 +37,7 @@ authController.post(
         const accessToken = jwt.sign(
           { id: user.id, email: user.email, name: user.name },
           ACCESS_TOKEN_SECRET,
-          { expiresIn: "1h" }
+          { expiresIn: '1h' }
         );
 
         const refreshToken = jwt.sign(
@@ -97,7 +97,7 @@ async function checkUser(email: string, password: string): Promise<UserInterface
       const passwordMatches = await bcrypt.compare(password, user.password);
       if (passwordMatches) {
         return {
-          id: user.id,
+          id: user._id.toString(),
           email: user.email,
           password: user.password,
           name: user.name,
