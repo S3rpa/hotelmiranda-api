@@ -1,24 +1,21 @@
-import jwt from 'jsonwebtoken'
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
-const secretKey = process.env.TOKEN_SECRET || 'supersecretkey' 
+const secretKey = process.env.TOKEN_SECRET || 'supersecretkey';
 
-interface CustomRequest extends Request {
-  user?: any
-}
-
-export const isLoggedIn = (req: CustomRequest, res: Response, next: NextFunction) => {
-  const token = req.headers['authorization']?.split(' ')[1]
+export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' })
+    return res.status(401).json({ message: 'Acceso denegado. No se proporcionó un token.' });
   }
 
   try {
-    const decoded = jwt.verify(token, secretKey)
-    req.user = decoded
-    next()
+    const decoded = jwt.verify(token, secretKey);
+    (req as any).user = decoded;
+    next();
   } catch (error) {
-    return res.status(403).json({ message: 'Invalid token.' })
+    res.status(401).json({ message: 'Token inválido o expirado.' });
   }
-}
+};

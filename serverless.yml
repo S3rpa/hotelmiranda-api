@@ -1,0 +1,17 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: oxygenmiranda1
+service: nodejs-aws-lambda
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-west-3
+functions:
+  app:
+    handler: handler.app
+    events:
+      - http:
+          path: /
+          method: any
+      - http:
+          path: /{proxy+}
+          method: any
