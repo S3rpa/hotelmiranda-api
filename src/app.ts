@@ -10,10 +10,11 @@ import { userController } from './controllers/userController';
 import { isLoggedIn } from './middleware/auth';
 import { indexController } from './controllers/indexController';
 import { authController } from './controllers/loginController';
+import { connectToDatabase } from './db';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const secretKey = process.env.TOKEN_SECRET || 'supersecretkey';
+const secretKey = process.env.ACCESS_TOKEN_SECRET || 'sfaaga2ggd52352ashbfiusahf';
 const mongoURI = process.env.MONGO_URI || 'mongodb+srv://sergiobarbera1:9mFnNMoBDAzEgSTf@miranda.p0ar9.mongodb.net/Miranda';
 
 // Middleware
@@ -36,14 +37,15 @@ app.use((_req: Request, res: Response) => {
 // Iniciar servidor
 const startServer = async () => {
   try {
-    await mongoose.connect(mongoURI);
-    console.log('Connected to MongoDB');
+    await connectToDatabase();
     app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
   } catch (error) {
     console.error('Error connecting to MongoDB:', (error as Error).message);
     process.exit(1);
   }
 };
+
+startServer();
 
 // Cerrar conexión a MongoDB al finalizar
 process.on('SIGINT', async () => {
