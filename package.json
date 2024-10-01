@@ -7,7 +7,8 @@
     "start": "ts-node src/app.ts",
     "build": "rimraf dist && tsc",
     "deploy": "zip -r lambda.zip .",
-    "dev": "nodemon --exec npx ts-node src/app.ts"
+    "dev": "nodemon --exec npx ts-node src/app.ts",
+    "seed": "ts-node src/seed.ts"
   },
   "keywords": [],
   "author": "",

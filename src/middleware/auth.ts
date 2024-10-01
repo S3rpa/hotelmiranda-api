@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const secretKey = process.env.TOKEN_SECRET || 'supersecretkey';
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'accessSecretKey';
 
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers['authorization'];
@@ -12,7 +12,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const decoded = jwt.verify(token, secretKey);
+    const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET);
     (req as any).user = decoded;
     next();
   } catch (error) {
