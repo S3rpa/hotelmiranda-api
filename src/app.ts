@@ -1,7 +1,6 @@
-import express, { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 import { roomController } from './controllers/roomController';
 import { bookingController } from './controllers/bookingController';
@@ -12,14 +11,22 @@ import { indexController } from './controllers/indexController';
 import { authController } from './controllers/loginController';
 import { connectToDatabase } from './db';
 
+dotenv.config(); 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const secretKey = process.env.ACCESS_TOKEN_SECRET || 'sfaaga2ggd52352ashbfiusahf';
-const mongoURI = process.env.MONGO_URI || 'mongodb+srv://sergiobarbera1:9mFnNMoBDAzEgSTf@miranda.p0ar9.mongodb.net/Miranda';
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 // Rutas
 app.use('/', indexController);
@@ -34,25 +41,15 @@ app.use((_req: Request, res: Response) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Iniciar servidor
-const startServer = async () => {
-  try {
-    await connectToDatabase();
-    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', (error as Error).message);
-    process.exit(1);
-  }
-};
-
-startServer();
-
-// Cerrar conexión a MongoDB al finalizar
-process.on('SIGINT', async () => {
-  await mongoose.connection.close();
-  console.log('Disconnected from MongoDB due to app termination');
-  process.exit(0);
+// Manejo de errores
+app.use((err: any, req: Request, res: Response, next: Function) => {
+  console.error(`[Error] ${err.stack}`);
+  res.status(500).json({ message: 'Internal server error', error: err.message });
 });
-startServer();
 
-export default app;
+// Conectar a la base de datos
+connectToDatabase().catch(err => {
+  console.error('Error al conectar a MongoDB:', err);
+});
+
+export default app

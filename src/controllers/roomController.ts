@@ -6,7 +6,7 @@ const roomController = Router()
 
 roomController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
     try {
-        const rooms = await RoomModel.find
+        const rooms = await RoomModel.find()
         return res.status(200).json(rooms)
     } catch (error) {
         return res.status(500).json({ message: 'Error fetching rooms', error })
