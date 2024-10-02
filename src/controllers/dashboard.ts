@@ -15,30 +15,47 @@ dashboardController.get('/dashboard', isLoggedIn, async (req: Request, res: Resp
     const bookedRooms = await RoomModel.countDocuments({ status: 'Booked' });
     const bookedPercentage = totalRooms > 0 ? (bookedRooms / totalRooms) * 100 : 0;
 
-    // Obtener el inicio y el final del día actual
-    const today = new Date();
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0)); 
-    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+    // Conteo de Check-ins y Check-outs
+    const today = new Date().toISOString().split('T')[0];
 
-    // Conteo de Check-ins y Check-outs para el día actual
     const checkInsToday = await BookingModel.countDocuments({
-      checkIn: { $gte: startOfDay, $lte: endOfDay },
+      checkIn: { $gte: new Date(today), $lt: new Date(today + 'T23:59:59') },
     });
 
     const checkOutsToday = await BookingModel.countDocuments({
-      checkOut: { $gte: startOfDay, $lte: endOfDay },
+      checkOut: { $gte: new Date(today), $lt: new Date(today + 'T23:59:59') },
     });
+
+    // Obtener check-ins y check-outs recientes para el gráfico
+    const recentBookings = await BookingModel.find({
+      $or: [
+        { checkIn: { $gte: new Date(today) } },
+        { checkOut: { $gte: new Date(today) } },
+      ],
+    }).select('checkIn checkOut');
+
+    const checkInStats = recentBookings.map(booking => ({
+      date: booking.checkIn.toISOString().split('T')[0],
+      checkIn: 1,
+      checkOut: 0,
+    }));
+
+    const checkOutStats = recentBookings.map(booking => ({
+      date: booking.checkOut.toISOString().split('T')[0],
+      checkIn: 0,
+      checkOut: 1,
+    }));
 
     // Datos del dashboard
     const dashboardData = {
       bookingsCount,
       rooms: {
         total: totalRooms,
-        booked: bookedRooms,
         bookedPercentage: bookedPercentage.toFixed(2),
       },
       checkInsToday,
       checkOutsToday,
+      recentBookings: [...checkInStats, ...checkOutStats],
     };
 
     return res.status(200).json(dashboardData);
