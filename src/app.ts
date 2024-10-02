@@ -9,6 +9,7 @@ import { userController } from './controllers/userController';
 import { isLoggedIn } from './middleware/auth';
 import { indexController } from './controllers/indexController';
 import { authController } from './controllers/loginController';
+import { dashboardController } from './controllers/dashboard';
 import { connectToDatabase } from './db';
 
 dotenv.config(); 
@@ -31,6 +32,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Rutas
 app.use('/', indexController);
 app.use('/api/login', authController);
+app.use('/api', isLoggedIn, dashboardController);
 app.use('/api/rooms', isLoggedIn, roomController);
 app.use('/api/bookings', isLoggedIn, bookingController);
 app.use('/api/contacts', isLoggedIn, contactController);
