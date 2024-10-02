@@ -1,29 +1,32 @@
 import { Router, Request, Response } from 'express';
 import { isLoggedIn } from '../middleware/auth';
-import { BookingModel } from '../schemas/bookingSchema';  // Modelo de Bookings
-import { RoomModel } from '../schemas/roomSchema';  // Modelo de Rooms
+import { BookingModel } from '../schemas/bookingSchema';
+import { RoomModel } from '../schemas/roomSchema';
 
 const dashboardController = Router();
 
 dashboardController.get('/dashboard', isLoggedIn, async (req: Request, res: Response) => {
   try {
-    // 1. Conteo total de reservas (bookingsCount)
+    // Conteo total de reservas (bookingsCount)
     const bookingsCount = await BookingModel.countDocuments();
 
-    // 2. Porcentaje de habitaciones con estado 'Booked'
+    // Porcentaje de habitaciones con estado 'Booked'
     const totalRooms = await RoomModel.countDocuments();
     const bookedRooms = await RoomModel.countDocuments({ status: 'Booked' });
     const bookedPercentage = totalRooms > 0 ? (bookedRooms / totalRooms) * 100 : 0;
 
-    // 3. Conteo de Check-ins y Check-outs
-    const today = new Date().toISOString().split('T')[0];
+    // Obtener el inicio y el final del día actual
+    const today = new Date();
+    const startOfDay = new Date(today.setHours(0, 0, 0, 0)); 
+    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
 
+    // Conteo de Check-ins y Check-outs para el día actual
     const checkInsToday = await BookingModel.countDocuments({
-      checkIn: { $gte: new Date(today), $lt: new Date(today + 'T23:59:59') },
+      checkIn: { $gte: startOfDay, $lte: endOfDay },
     });
 
     const checkOutsToday = await BookingModel.countDocuments({
-      checkOut: { $gte: new Date(today), $lt: new Date(today + 'T23:59:59') },
+      checkOut: { $gte: startOfDay, $lte: endOfDay },
     });
 
     // Datos del dashboard
