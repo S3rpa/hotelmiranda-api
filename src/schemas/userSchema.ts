@@ -2,7 +2,6 @@ import { Schema, model } from 'mongoose';
 import { UserInterface } from '../interfaces/userInterface';
 
 const userSchema = new Schema<UserInterface>({
-  _id: { type: String, required: true },
   name: { type: String, required: true },
   work: { type: String, required: true },
   schedule: { type: String, required: true },
