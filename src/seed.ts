@@ -30,7 +30,7 @@ let rooms: Room[] = [];
 
 // Función para crear usuarios aleatorios
 const createRandomUser = (): Partial<UserInterface> => ({
-  id: faker.string.uuid(),
+  _id: new mongoose.Types.ObjectId(),
   name: faker.person.fullName(),
   work: faker.person.jobTitle(),
   schedule: faker.date.recent().toISOString(),
@@ -99,7 +99,7 @@ const createAdminUser = async (): Promise<UserInterface | null> => {
 
     // Crear objeto del usuario admin
     const adminUser: Partial<UserInterface> = {
-      id: faker.string.uuid(),
+      _id: new mongoose.Types.ObjectId(),
       name: 'Admin User',
       work: 'Administrator',
       schedule: new Date().toISOString(),

@@ -1,7 +1,6 @@
 import mongoose,{ Types } from 'mongoose';
 export interface UserInterface {
-  _id?: mongoose.Types.ObjectId;
-  id: string;
+  _id: mongoose.Types.ObjectId;
   name: string;
   work: string;
   schedule: string;
