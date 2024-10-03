@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { isLoggedIn } from '../middleware/auth';
 import { UserModel } from '../schemas/userSchema';
-import multer from 'multer';
 
 const userController = Router();
-const upload = multer({ dest: 'uploads/' });
 
 // Obtener todos los usuarios
 userController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
