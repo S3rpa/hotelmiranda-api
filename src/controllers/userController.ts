@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction, Router } from 'express';
+import multer from 'multer';
 import { isLoggedIn } from '../middleware/auth';
 import { UserModel } from '../schemas/userSchema';
 
 const userController = Router();
+const upload = multer({ dest: 'uploads/' });
 
 // Obtener todos los usuarios
 userController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
@@ -30,9 +32,24 @@ userController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next
 });
 
 // Crear un nuevo usuario
-userController.post('/', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
+userController.post('/', isLoggedIn, upload.single('photo'), async (req: Request, res: Response, _next: NextFunction) => {
     try {
-        const newUser = new UserModel({ ...req.body });
+        const { name, work, schedule, telephone, email, description, password, start_date, state } = req.body;
+        const photo = req.file ? req.file.path : null; // Ruta de la imagen subida
+
+        const newUser = new UserModel({
+            name,
+            work,
+            schedule,
+            telephone,
+            email,
+            description,
+            password,
+            start_date,
+            state,
+            photo,
+        });
+
         const insertedUser = await newUser.save();
         return res.status(201).json(insertedUser);
     } catch (error) {
