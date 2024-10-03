@@ -12,7 +12,7 @@ import { authController } from './controllers/loginController';
 import { dashboardController } from './controllers/dashboard';
 import { connectToDatabase } from './db';
 
-dotenv.config(); 
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -54,4 +54,4 @@ connectToDatabase().catch(err => {
   console.error('Error al conectar a MongoDB:', err);
 });
 
-export default app
+export default app;
