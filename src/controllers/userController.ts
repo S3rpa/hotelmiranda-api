@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { isLoggedIn } from '../middleware/auth';
 import { UserModel } from '../schemas/userSchema';
+import multer from 'multer';
 
 const userController = Router();
+const upload = multer({ dest: 'uploads/' });
 
 // Obtener todos los usuarios
 userController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
@@ -30,15 +32,27 @@ userController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next
 });
 
 // Crear un nuevo usuario
-userController.post('/', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
+userController.post('/', isLoggedIn, upload.single('photo'), async (req, res) => {
     try {
-        const newUser = new UserModel({ ...req.body });
-        const insertedUser = await newUser.save();
-        return res.status(201).json(insertedUser);
+      const { name, work, schedule, telephone, email, description, password, start_date, state } = req.body;
+      const newUser = new UserModel({
+        name,
+        work,
+        schedule,
+        telephone,
+        email,
+        description,
+        password,
+        start_date,
+        state,
+        photo: req.file ? `/uploads/${req.file.filename}` : null,
+      });
+      const insertedUser = await newUser.save();
+      return res.status(201).json(insertedUser);
     } catch (error) {
-        return res.status(500).json({ message: 'Error adding new user', error });
+      return res.status(500).json({ message: 'Error adding new user', error });
     }
-});
+  });
 
 // Eliminar un usuario por ID
 userController.delete('/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
