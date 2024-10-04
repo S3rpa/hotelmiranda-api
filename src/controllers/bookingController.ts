@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { isLoggedIn } from '../middleware/auth';
 import pool from '../../config/db';
+import { bookingSchema } from '../validators/bookingValidator';
 
 const bookingController = Router();
 
@@ -31,6 +32,11 @@ bookingController.get('/:id', isLoggedIn, async (req: Request, res: Response, _n
 
 // Crear una nueva reserva
 bookingController.post('/add', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
+    const { error } = bookingSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: 'Validation error', details: error.details });
+    }
+
     const { user, room, orderDate, checkIn, checkOut, status, price, specialRequest } = req.body;
     try {
         const [result]: any = await pool.query(
@@ -71,8 +77,13 @@ bookingController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Re
 
 // Actualizar una reserva por ID
 bookingController.put('/update/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const { id } = req.params;
+    const { error } = bookingSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: 'Validation error', details: error.details });
+    }
+
     const { user, room, orderDate, checkIn, checkOut, status, price, specialRequest } = req.body;
+    const { id } = req.params;
     try {
         const [result]: any = await pool.query(
             'UPDATE bookings SET user = ?, room = ?, orderDate = ?, checkIn = ?, checkOut = ?, status = ?, price = ?, specialRequest = ? WHERE id = ?',
