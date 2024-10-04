@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
 import { roomController } from './controllers/roomController';
 import { bookingController } from './controllers/bookingController';
 import { contactController } from './controllers/contactController';
@@ -10,7 +9,8 @@ import { isLoggedIn } from './middleware/auth';
 import { indexController } from './controllers/indexController';
 import { authController } from './controllers/loginController';
 import { dashboardController } from './controllers/dashboard';
-import { connectToDatabase } from './db';
+import pool from '../config/db';
+import mysql from 'mysql2/promise';
 
 dotenv.config();
 const app = express();
@@ -24,10 +24,23 @@ app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
 
+// Log de solicitudes
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
   next();
 });
+
+async function checkDatabaseConnection() {
+  try {
+    const connection = await pool.getConnection();
+    console.log('Conectado a MySQL');
+    connection.release();
+  } catch (err) {
+    console.error('Error al conectar con MySQL:', err);
+  }
+}
+
+checkDatabaseConnection();
 
 // Rutas
 app.use('/', indexController);
@@ -44,14 +57,9 @@ app.use((_req: Request, res: Response) => {
 });
 
 // Manejo de errores
-app.use((err: any, req: Request, res: Response, next: Function) => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(`[Error] ${err.stack}`);
   res.status(500).json({ message: 'Internal server error', error: err.message });
-});
-
-// Conectar a la base de datos
-connectToDatabase().catch(err => {
-  console.error('Error al conectar a MongoDB:', err);
 });
 
 export default app;

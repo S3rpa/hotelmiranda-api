@@ -1,52 +1,57 @@
 import { Router, Request, Response } from 'express';
 import { isLoggedIn } from '../middleware/auth';
-import { BookingModel } from '../schemas/bookingSchema';
-import { RoomModel } from '../schemas/roomSchema';
+import pool from '../../config/db';
 
 const dashboardController = Router();
 
-dashboardController.get('/dashboard', isLoggedIn, async (req: Request, res: Response) => {
+dashboardController.get('/dashboard', isLoggedIn, async (_req: Request, res: Response) => {
   try {
-    // Conteo total de reservas (bookingsCount)
-    const bookingsCount = await BookingModel.countDocuments();
+    // 1. Conteo total de reservas (bookingsCount)
+    const [rows]: any = await pool.query('SELECT COUNT(*) AS bookingsCount FROM bookings');
+    const bookingsCount = rows[0].bookingsCount;
 
-    // Porcentaje de habitaciones con estado 'Booked'
-    const totalRooms = await RoomModel.countDocuments();
-    const bookedRooms = await RoomModel.countDocuments({ status: 'Booked' });
+    // 2. Porcentaje de habitaciones con estado 'Booked'
+    const [totalRoomsResult] = await pool.query('SELECT COUNT(*) AS totalRooms FROM rooms');
+    const totalRooms = (totalRoomsResult as any)[0].totalRooms;
+    const [bookedRoomsResult]: any = await pool.query("SELECT COUNT(*) AS bookedRooms FROM rooms WHERE status = 'Booked'");
+    const bookedRooms = bookedRoomsResult[0].bookedRooms;
     const bookedPercentage = totalRooms > 0 ? (bookedRooms / totalRooms) * 100 : 0;
 
-    // Conteo de Check-ins y Check-outs
+    // 3. Conteo de Check-ins y Check-outs
     const today = new Date().toISOString().split('T')[0];
 
-    const checkInsToday = await BookingModel.countDocuments({
-      checkIn: { $gte: new Date(today), $lt: new Date(today + 'T23:59:59') },
-    });
+    const [checkInsResult]: any = await pool.query(
+      `SELECT COUNT(*) AS checkInsToday FROM bookings WHERE checkIn BETWEEN ? AND ?`, 
+      [`${today} 00:00:00`, `${today} 23:59:59`]
+    );
+    const checkInsToday = checkInsResult[0].checkInsToday;
 
-    const checkOutsToday = await BookingModel.countDocuments({
-      checkOut: { $gte: new Date(today), $lt: new Date(today + 'T23:59:59') },
-    });
+    const [checkOutsResult]: any = await pool.query(
+      `SELECT COUNT(*) AS checkOutsToday FROM bookings WHERE checkOut BETWEEN ? AND ?`, 
+      [`${today} 00:00:00`, `${today} 23:59:59`]
+    );
+    const checkOutsToday = checkOutsResult[0].checkOutsToday;
 
-    // Obtener check-ins y check-outs recientes para el gráfico
-    const recentBookings = await BookingModel.find({
-      $or: [
-        { checkIn: { $gte: new Date(today) } },
-        { checkOut: { $gte: new Date(today) } },
-      ],
-    }).select('checkIn checkOut');
+    // 4. Obtener check-ins y check-outs recientes para el gráfico
+    const [recentBookings] = await pool.query(
+      `SELECT checkIn, checkOut FROM bookings WHERE checkIn >= ? OR checkOut >= ?`, 
+      [today, today]
+    );
 
-    const checkInStats = recentBookings.map(booking => ({
-      date: booking.checkIn.toISOString().split('T')[0],
+    // Mapear los datos de check-ins y check-outs recientes para los gráficos
+    const checkInStats = (recentBookings as any[]).map((booking: any) => ({
+      date: new Date(booking.checkIn).toISOString().split('T')[0],
       checkIn: 1,
       checkOut: 0,
     }));
 
-    const checkOutStats = recentBookings.map(booking => ({
-      date: booking.checkOut.toISOString().split('T')[0],
+    const checkOutStats = (recentBookings as any[]).map((booking: any) => ({
+      date: new Date(booking.checkOut).toISOString().split('T')[0],
       checkIn: 0,
       checkOut: 1,
     }));
 
-    // Datos del dashboard
+    // Preparar datos del dashboard
     const dashboardData = {
       bookingsCount,
       rooms: {
