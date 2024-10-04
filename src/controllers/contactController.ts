@@ -1,65 +1,72 @@
-import { Request, Response, NextFunction, Router } from 'express'
-import { isLoggedIn } from '../middleware/auth'
-import { ContactModel } from "../schemas/contactSchema"
+import { Request, Response, NextFunction, Router } from 'express';
+import { isLoggedIn } from '../middleware/auth';
+import pool from '../../config/db';
+import { contactSchema } from '../validators/contactsValidator';
 
-const contactController = Router()
+const contactController = Router();
 
 contactController.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
     try {
-        const contacts = await ContactModel.find()
-        return res.status(200).json(contacts)
+        const [contacts] = await pool.query('SELECT * FROM contacts');
+        return res.status(200).json(contacts);
     } catch (error) {
-        return res.status(500).json({ message: 'Error fetching contacts', error })
+        return res.status(500).json({ message: 'Error fetching contacts', error });
     }
-})
+});
 
 contactController.get('/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const {id} = req.params
+    const { id } = req.params;
     try {
-        const contact = await ContactModel.findById(id)
-        if (contact) {
-            return res.status(200).json(contact)
+        const [contact]: any = await pool.query('SELECT * FROM contacts WHERE contact_id = ?', [id]);
+        if (Array.isArray(contact) && contact.length > 0) {
+            return res.status(200).json(contact[0]);
         } else {
-            return res.status(404).json({ message: `Contact with id ${id} not found` })
+            return res.status(404).json({ message: `Contact with id ${id} not found` });
         }
     } catch (error) {
-        return res.status(500).json({ message: `Error fetching contact #${id}`, error })
+        return res.status(500).json({ message: `Error fetching contact #${id}`, error });
     }
-})
+});
 
 contactController.post('/add', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    try {
-        const newContact = new ContactModel({...req.body})
-        const insertedContact = await newContact.save()
-        return res.status(201).json(insertedContact)
-    } catch (error) {
-        return res.status(500).json({ message: 'Error adding new contact', error })
+    const { error } = contactSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: 'Validation error', details: error.details });
     }
-})
 
-contactController.delete('/delete/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const {id} = req.params
+    const { contact_id, date, customer, comment, gender, ip_address, status } = req.body;
     try {
-        const deletedContact = await ContactModel.findByIdAndDelete(id)
-        if (deletedContact) {
-            return res.status(200).json(deletedContact)
-        } else {
-            return res.status(404).json({ message: `Contact with id ${id} not found` })
-        }
+        const [result]: any = await pool.query(
+            'INSERT INTO contacts (contact_id, date, customer, comment, gender, ip_address, status) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+            [contact_id, date, customer, comment, gender, ip_address, status]
+        );
+        return res.status(201).json({ message: 'Contact added successfully' });
     } catch (error) {
-        return res.status(500).json({ message: `Error deleting contact #${id}`, error })
+        return res.status(500).json({ message: 'Error adding new contact', error });
     }
-})
+});
 
 contactController.put('/update/:id', isLoggedIn, async (req: Request, res: Response, _next: NextFunction) => {
-    const {id} = req.params
-    try {
-        await ContactModel.updateOne({ id }, req.body)
-        const updatedContact = await ContactModel.findById(id)
-        return res.status(200).json(updatedContact)
-    } catch (error) {
-        return res.status(500).json({ message: `Error updating contact #${id}`, error })
+    const { id } = req.params;
+    const { error } = contactSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: 'Validation error', details: error.details });
     }
-})
 
-export { contactController }
+    const { contact_id, date, customer, comment, gender, ip_address, status } = req.body;
+    try {
+        const [result]: any = await pool.query(
+            'UPDATE contacts SET contact_id = ?, date = ?, customer = ?, comment = ?, gender = ?, ip_address = ?, status = ? WHERE contact_id = ?', 
+            [contact_id, date, customer, comment, gender, ip_address, status, id]
+        );
+        if (result.affectedRows > 0) {
+            return res.status(200).json({ message: 'Contact updated successfully' });
+        } else {
+            return res.status(404).json({ message: `Contact with id ${id} not found` });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: 'Error updating contact', error });
+    }
+});
+
+export { contactController };
