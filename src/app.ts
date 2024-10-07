@@ -20,6 +20,9 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+console.log('MONGO_URI:', process.env.MONGO_URI);
+console.log('ACCESS_TOKEN_SECRET:', process.env.ACCESS_TOKEN_SECRET);
+
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
@@ -32,7 +35,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Rutas
 app.use('/', indexController);
 app.use('/api/login', authController);
-app.use('/api', dashboardController);
+app.use('/api', isLoggedIn, dashboardController);
 app.use('/api/rooms', isLoggedIn, roomController);
 app.use('/api/bookings', isLoggedIn, bookingController);
 app.use('/api/contacts', isLoggedIn, contactController);
