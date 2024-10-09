@@ -10,7 +10,6 @@ import { indexController } from './controllers/indexController';
 import { authController } from './controllers/loginController';
 import { dashboardController } from './controllers/dashboard';
 import pool from '../config/db';
-import mysql from 'mysql2/promise';
 
 dotenv.config();
 const app = express();
@@ -20,9 +19,8 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+console.log('MONGO_URI:', process.env.MONGO_URI);
+console.log('ACCESS_TOKEN_SECRET:', process.env.ACCESS_TOKEN_SECRET);
 
 // Log de solicitudes
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -62,4 +60,5 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: 'Internal server error', error: err.message });
 });
 
+// Exporta el manejador para AWS Lambda
 export default app;
