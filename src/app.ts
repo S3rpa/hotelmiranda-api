@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import serverless from 'serverless-http';
 
 import { roomController } from './controllers/roomController';
 import { bookingController } from './controllers/bookingController';
@@ -22,10 +23,6 @@ app.use(express.json());
 
 console.log('MONGO_URI:', process.env.MONGO_URI);
 console.log('ACCESS_TOKEN_SECRET:', process.env.ACCESS_TOKEN_SECRET);
-
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
@@ -57,4 +54,5 @@ connectToDatabase().catch(err => {
   console.error('Error al conectar a MongoDB:', err);
 });
 
-export default app;
+// Exporta el manejador para AWS Lambda
+export const handler = serverless(app);

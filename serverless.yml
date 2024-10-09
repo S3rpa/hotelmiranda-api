@@ -1,5 +1,5 @@
-org: oxygenmiranda1
 service: nodejs-aws-lambda
+
 provider:
   name: aws
   runtime: nodejs20.x
@@ -8,9 +8,10 @@ provider:
     MONGO_URI: ${env:MONGO_URI}
     ACCESS_TOKEN_SECRET: ${env:ACCESS_TOKEN_SECRET}
     REFRESH_TOKEN_SECRET: ${env:REFRESH_TOKEN_SECRET}
+
 functions:
   app:
-    handler: handler.handler
+    handler: src/app.handler
     events:
       - http:
           path: /

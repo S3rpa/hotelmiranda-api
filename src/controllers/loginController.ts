@@ -32,7 +32,7 @@ authController.post('/', async (req: Request, res: Response, next: NextFunction)
     }
 
     const accessToken = jwt.sign({ id: user._id, email: user.email }, ACCESS_TOKEN_SECRET, {
-      expiresIn: '1h', // El token expira en 1 hora
+      expiresIn: '1h',
     });
 
     console.log('Token generado:', accessToken);
@@ -46,7 +46,10 @@ authController.post('/', async (req: Request, res: Response, next: NextFunction)
     });
   } catch (error) {
     console.error('Error en el login:', error);
-    return res.status(500).json({ message: 'Error interno del servidor' });
+    return res.status(500).json({ 
+      message: 'Error interno del servidor',
+      error: (error as Error).message,
+    });
   }
 });
 
