@@ -8,15 +8,11 @@ import { BookingModel } from './schemas/bookingSchema';
 import { ContactModel } from './schemas/contactSchema';
 import { UserInterface } from './interfaces/userInterface';
 import { Room } from './interfaces/roomsInterface';
-import { BookingInterface } from './interfaces/bookingsInterface';
+import { Booking } from './interfaces/bookingsInterface';
 import { Contact } from './interfaces/contactInterface';
 
 // Configurar variables de entorno
 dotenv.config();
-
-// Verificar la carga de variables de entorno
-console.log('ADMIN_EMAIL:', process.env.ADMIN_EMAIL);
-console.log('ADMIN_PASSWORD:', process.env.ADMIN_PASSWORD ? 'Definido' : 'No definido');
 
 // Semilla para faker
 faker.seed(1234);
@@ -55,17 +51,23 @@ const createRandomRoom = (): Partial<Room> => ({
 });
 
 // Función para crear reservas aleatorias
-const createRandomBooking = (): Partial<BookingInterface> => ({
-  user: users[Math.floor(Math.random() * users.length)]._id!,
-  room: rooms[Math.floor(Math.random() * rooms.length)]._id!,
-  id: faker.string.uuid(),
-  orderDate: faker.date.recent(),
-  checkIn: faker.date.future(),
-  checkOut: faker.date.future(),
-  status: faker.helpers.arrayElement(['Booked', 'Pending', 'Cancelled', 'Refund']),
-  price: faker.number.int({ min: 200, max: 500 }),
-  specialRequest: faker.lorem.sentence(),
-});
+const createRandomBooking = (user: UserInterface, room: Room): Partial<Booking> => {
+  return {
+    user: { 
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+    },
+    room: room._id,
+    _id: faker.string.uuid(),
+    orderDate: faker.date.recent(),
+    checkIn: faker.date.future(),
+    checkOut: faker.date.future(),
+    status: faker.helpers.arrayElement(['Booked', 'Pending', 'Cancelled', 'Refund']),
+    price: faker.number.int({ min: 200, max: 500 }),
+    specialRequest: faker.lorem.sentence(),
+  };
+};
 
 // Función para crear contactos aleatorios
 const createRandomContact = (): Partial<Contact> => ({
@@ -124,93 +126,44 @@ const createAdminUser = async (): Promise<UserInterface | null> => {
   }
 };
 
-// Función principal para inicializar la base de datos
 const startDatabase = async () => {
   try {
     await mongoose.connect(mongoURI);
     console.log('Conectado a MongoDB');
-  } catch (error) {
-    console.error('Error al conectar a MongoDB:', error);
-    return;
-  }
 
-  try {
-    // Limpiar las colecciones antes de agregar nuevos datos
+    // Limpiar las colecciones
     await UserModel.deleteMany({});
     await RoomModel.deleteMany({});
     await BookingModel.deleteMany({});
     await ContactModel.deleteMany({});
     console.log('Colecciones limpiadas');
 
-    // Crear el usuario admin y guardarlo en la base de datos
+    // Crear el usuario admin
     const admin = await createAdminUser();
     if (admin) {
       users.push(admin);
       console.log(`Usuario admin creado: ${admin.name} con email: ${admin.email}`);
-    } else {
-      console.error('No se pudo crear el usuario admin');
-      return; // Detener el script si no se crea el admin
     }
 
-    // Crear usuarios, habitaciones, reservas y contactos aleatorios
+    // Crear usuarios, habitaciones, reservas
     for (let i = 0; i < 10; i++) {
-      // Crear y guardar un usuario aleatorio
       const userData = createRandomUser();
-      let user;
-      try {
-        // Hashear la contraseña del usuario aleatorio
-        userData.password = await bcrypt.hash(userData.password!, 10);
+      const user = await new UserModel(userData).save();
 
-        user = await new UserModel(userData).save();
-        users.push(user);
-        console.log(`Usuario creado: ${user.name} (${user.email})`);
-      } catch (error: any) {
-        console.error('Error al crear usuario aleatorio:', error.message);
-      }
-
-      // Crear y guardar una habitación aleatoria
+      users.push(user);
       const roomData = createRandomRoom();
-      let room;
-      try {
-        room = await new RoomModel(roomData).save();
-        rooms.push(room);
-        console.log(`Habitación creada: ${room.room_name}`);
-      } catch (error: any) {
-        console.error('Error al crear habitación aleatoria:', error.message);
-      }
-
-      // Crear y guardar una reserva aleatoria
-      if (users.length > 0 && rooms.length > 0) {
-        const bookingData = createRandomBooking();
-        try {
-          const booking = await new BookingModel(bookingData).save();
-          console.log(`Reserva creada: ${booking._id}`);
-        } catch (error: any) {
-          console.error('Error al crear reserva aleatoria:', error.message);
-        }
-      } else {
-        console.log('No hay suficientes usuarios o habitaciones para crear una reserva.');
-      }
-
-      // Crear y guardar un contacto aleatorio
-      const contactData = createRandomContact();
-      try {
-        const contact = await new ContactModel(contactData).save();
-        console.log(`Contacto creado: ${contact.Contact_id}`);
-      } catch (error: any) {
-        console.error('Error al crear contacto aleatorio:', error.message);
-      }
+      const room = await new RoomModel(roomData).save();
+      
+      const bookingData = createRandomBooking(user, room);
+      await new BookingModel(bookingData).save();
+      console.log(`Reserva creada para ${user.name}`);
     }
-
-    console.log('Datos de prueba generados exitosamente');
-  } catch (error: any) {
-    console.error('Error durante la generación de datos:', error.message);
+  } catch (error) {
+    console.error('Error durante la inicialización:', error);
   } finally {
-    // Desconectar de MongoDB
     await mongoose.disconnect();
     console.log('Desconectado de MongoDB');
   }
 };
 
-// Ejecutar la función para iniciar la base de datos
 startDatabase();

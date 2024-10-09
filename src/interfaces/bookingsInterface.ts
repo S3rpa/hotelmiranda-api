@@ -1,15 +1,19 @@
 import mongoose,{ Types } from 'mongoose';
 
-
-export interface BookingInterface {
-  _id?: mongoose.Types.ObjectId;
+export interface User {
   id: string;
-  user: mongoose.Types.ObjectId;
-  room: mongoose.Types.ObjectId; 
+  name: string;
+  email: string;
+}
+
+export interface Booking {
+  _id: string;
+  user: User;
   orderDate: Date;
   checkIn: Date;
   checkOut: Date;
-  status: 'Booked' | 'Pending' | 'Cancelled' | 'Refund';
+  room: mongoose.Types.ObjectId; 
   price: number;
   specialRequest?: string;
+  status: string;
 }

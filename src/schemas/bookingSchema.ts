@@ -1,9 +1,13 @@
 import { Schema, model, Types } from 'mongoose';
-import { BookingInterface } from '../interfaces/bookingsInterface';
+import { Booking, User } from '../interfaces/bookingsInterface';
 
-const bookingSchema = new Schema<BookingInterface>({
-  id: { type: String, required: true },
-  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+const bookingSchema = new Schema<Booking>({
+  _id: { type: String, required: true },
+  user: { 
+    id: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true }
+  },
   room: { type: Schema.Types.ObjectId, ref: 'Room', required: true },
   orderDate: { type: Date, required: true },
   checkIn: { type: Date, required: true },
@@ -13,4 +17,4 @@ const bookingSchema = new Schema<BookingInterface>({
   specialRequest: { type: String },
 });
 
-export const BookingModel = model<BookingInterface>('Booking', bookingSchema);
+export const BookingModel = model<Booking>('Booking', bookingSchema);
