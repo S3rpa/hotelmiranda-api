@@ -146,7 +146,7 @@ const startDatabase = async () => {
     }
 
     // Crear usuarios, habitaciones, reservas
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
       const userData = createRandomUser();
       const user = await new UserModel(userData).save();
 
@@ -154,6 +154,10 @@ const startDatabase = async () => {
       const roomData = createRandomRoom();
       const room = await new RoomModel(roomData).save();
       
+      const contactData = createRandomContact();
+      await new ContactModel(contactData).save();
+      console.log(`Contacto creado para ${contactData.Customer}`);
+
       const bookingData = createRandomBooking(user, room);
       await new BookingModel(bookingData).save();
       console.log(`Reserva creada para ${user.name}`);
