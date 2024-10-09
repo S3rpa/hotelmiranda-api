@@ -1,55 +1,46 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { UserModel } from '../schemas/userSchema';
+import pool from '../../config/db';
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'accessSecretKey';
 const authController = Router();
 
-authController.post('/', async (req: Request, res: Response, next: NextFunction) => {
+// Ruta de autenticación de usuario
+authController.post('/', async (req: Request, res: Response, _next: NextFunction) => {
   const { email, password } = req.body;
 
-  console.log('Recibiendo solicitud de login:', { email, password });
-
   if (!email || !password) {
-    console.log('Faltan credenciales');
     return res.status(400).json({ message: 'Faltan credenciales' });
   }
 
   try {
-    const user = await UserModel.findOne({ email });
-    console.log('Usuario encontrado:', user);
+    const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]) as any[];
+    const user = users[0];
+
     if (!user) {
-      console.log('Usuario no encontrado o credenciales inválidas');
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
 
     const passwordMatches = await bcrypt.compare(password, user.password);
-    console.log('¿La contraseña coincide?', passwordMatches); 
     if (!passwordMatches) {
-      console.log('Contraseña incorrecta'); 
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
 
-    const accessToken = jwt.sign({ id: user._id, email: user.email }, ACCESS_TOKEN_SECRET, {
-      expiresIn: '1h',
+    const accessToken = jwt.sign({ id: user.id, email: user.email }, ACCESS_TOKEN_SECRET, {
+      expiresIn: '1h', 
     });
 
-    console.log('Token generado:', accessToken);
-    res.json({ 
+    return res.json({ 
       accessToken, 
       user: { 
-        id: user._id, 
+        id: user.id, 
         email: user.email, 
         name: user.name 
       } 
     });
   } catch (error) {
-    console.error('Error en el login:', error);
-    return res.status(500).json({ 
-      message: 'Error interno del servidor',
-      error: (error as Error).message,
-    });
+    return res.status(500).json({ message: 'Error interno del servidor', error });
   }
 });
 
